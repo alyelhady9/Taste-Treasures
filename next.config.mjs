@@ -3,14 +3,11 @@ const nextConfig = {
     images: {
         loader: 'akamai',
         path: '',
-      },
-      assetPrefix: './',
-    
+    },
+    assetPrefix: './',
+    experimental: {
+        outputFileTracing: true,
+    },
 };
 
-module.exports = {
-    experimental: {
-      outputFileTracing: true,
-    },
-  };
 export default nextConfig;
