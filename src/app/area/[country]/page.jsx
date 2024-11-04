@@ -1,23 +1,10 @@
-"use client"
+"use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 
 const CountryPage = (props) => {
     const [data, setData] = useState([]);
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${props.params.country}`);
-                
-    //             setData(response.data.meals);
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     };
-    //     fetchData();
-    // }, [props.params.country]); // Added dependency to useEffect
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,11 +30,10 @@ const CountryPage = (props) => {
         fetchData();
     }, [props.params.country]);
 
-
     return (
         <div className="mt-24 w-full flex justify-center">
             <div className="w-8/12">
-                <h1 className="text-amber-500 font-bold text-lg"> {props.params.country} meals</h1>
+                <h1 className="text-amber-500 font-bold text-lg">{props.params.country} meals</h1>
                 <div className="grid grid-cols-4 gap-4 mt-4 max-lg:grid-cols-2 max-md:grid-cols-1">
                     {data.map((meal) => (
                         <div key={meal.idMeal} className="border min-h-80 h-full cursor-pointer p-4 rounded-lg shadow-lg">
@@ -63,5 +49,13 @@ const CountryPage = (props) => {
     );
 }
 
-export default CountryPage;
+export async function generateStaticParams() {
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?a=list');
+    const data = await response.json();
 
+    return data.meals.map(country => ({
+        params: { country: country.strArea },
+    }));
+}
+
+export default CountryPage;
