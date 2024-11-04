@@ -12,8 +12,10 @@ const MainPage = () => {
               <div className="w-full relative">
 
                 <div className="">
-                    <img className="w-full h-full max-md:hidden" src={bg} alt="Logo"  />
-                    <img className="w-full  hidden max-md:block" src={bgf} alt="Logo"  />
+                    <Image className="w-full layout="fill"
+            objectFit="cover" h-full max-md:hidden" src={bg} alt="Logo"  />
+                    <Image className="w-full layout="fill"
+            objectFit="cover"  hidden max-md:block" src={bgf} alt="Logo"  />
                     <div className="absolute top-1/4 w-full  mt-8  flex flex-col justify-center items-center px-10 ">
                         <p className="text-3xl max-md:text-xl font-bold mb-2 text-amber-500 ">
                           Find, Cook, Enjoy!
