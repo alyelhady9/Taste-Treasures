@@ -4,10 +4,7 @@ const nextConfig = {
         loader: 'akamai',
         path: '',
     },
-    assetPrefix: './',
-    experimental: {
-        outputFileTracing: true,
-    },
+    assetPrefix: '/',
 };
 
 export default nextConfig;
