@@ -167,11 +167,11 @@ const CountryPage = () => {
     }
 
     return (
-        <div className="mt-2 w-full select-none">
+        <div className="w-full select-none bg-orange-50">
           <div className="w-8/12 max-md:w-11/12 mx-auto">
             
             {/* Updated Heading Style */}
-            <h2 className="text-4xl lg:text-4xl font-extrabold text-gray-800 mb-8 capitalize tracking-tight">
+            <h2 className=" w-full  text-3xl lg:text-3xl font-extrabold text-gray-800 mb-8 max-md:mb-2 max-md:ml-[40%] max-md:-translate-x-1/2 transform capitalize tracking-tight">
               {country} <span className="text-orange-600">Cuisine</span>
             </h2>
             

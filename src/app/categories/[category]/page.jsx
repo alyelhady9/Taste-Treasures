@@ -91,7 +91,7 @@ const CategoryPage = (props) => {
   } , [])
 
   return (
-    <div className='mt-2 w-full select-none'>
+    <div className='bg-orange-50 mt-2 w-full select-none'>
       <div className='w-8/12 max-md:w-11/12 mx-auto'>
         
         {/* The heading now matches the CategoriesSection heading style */}
