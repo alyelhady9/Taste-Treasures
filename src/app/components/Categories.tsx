@@ -5,31 +5,42 @@ import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 
+interface Category {
+    idCategory: string;
+    strCategory: string;
+    strCategoryThumb: string;
+    strCategoryDescription: string;
+}
 const Categories = () => {
-    const [categories, setCategories] = useState([]);
+   
+    const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
-
+    const [error, setError] = useState<string | null>(null);
+    
     useEffect(() => {
         const fetchCategories = async () => {
             try {
                 const response = await axios.get("https://www.themealdb.com/api/json/v1/1/categories.php");
-                const filteredCategories = response.data.categories.filter((category:any) => category.strCategory !== "Pork");
-                setCategories(filteredCategories);
-            } catch (error) {
-                console.log(error);
-            } finally {
+                // The API returns the categories in `response.data.categories`
+                setCategories(response.data.categories || []);
+                setLoading(false);
+            } catch (err) {
+                console.error("Error fetching categories:", err);
+                setError("Failed to load categories.");
                 setLoading(false);
             }
         };
+    
         fetchCategories();
     }, []);
 
+ 
     if (loading) {
-        return (
-            <div className="flex justify-center items-center h-40">
-                <p className="text-gray-500">Loading categories...</p>
-            </div>
-        );
+        return <div className="text-center mt-8">Loading categories...</div>;
+    }
+    
+    if (error) {
+        return <div className="text-center mt-8 text-red-500">{error}</div>;
     }
 
     return (
@@ -73,3 +84,4 @@ const Categories = () => {
 }
 
 export default Categories;
+
