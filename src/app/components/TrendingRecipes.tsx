@@ -5,6 +5,10 @@
 // import Link from "next/link";
 // import Image from "next/image";
 
+// // Import the carousel and its styles
+// import Carousel from "react-multi-carousel";
+// import "react-multi-carousel/lib/styles.css";
+
 // const TrendingRecipes = () => {
 //     const [recipes, setRecipes] = useState([]);
 //     const [loading, setLoading] = useState(true);
@@ -17,7 +21,7 @@
 //                     axios.get("https://www.themealdb.com/api/json/v1/1/random.php")
 //                 );
 //                 const responses = await Promise.all(promises);
-//                 const trendingRecipes = responses.map(response => response.data.meals[0]);
+//                 const trendingRecipes: any = responses.map(response => response.data.meals[0]);
 //                 setRecipes(trendingRecipes);
 //             } catch (error) {
 //                 console.error("Error fetching trending recipes:", error);
@@ -29,8 +33,27 @@
 //         fetchTrendingRecipes();
 //     }, []);
 
+//     // Define responsive configuration for the carousel
+//     const responsive = {
+//         superLargeDesktop: {
+//             breakpoint: { max: 4000, min: 1024 },
+//             items: 4,
+//         },
+//         desktop: {
+//             breakpoint: { max: 1024, min: 768 },
+//             items: 4,
+//         },
+//         tablet: {
+//             breakpoint: { max: 768, min: 640 },
+//             items: 2,
+//         },
+//         mobile: {
+//             breakpoint: { max: 640, min: 0 },
+//             items: 1,
+//         },
+//     };
+
 //     if (loading) {
-//         // You can replace this with a nice skeleton loader
 //         return (
 //             <div className="w-full text-center py-16">
 //                 <p className="text-gray-500">Loading trending recipes...</p>
@@ -46,7 +69,51 @@
 //             <p className="text-gray-500 mb-12 max-w-2xl">
 //                 Here are some of the most popular dishes people are cooking today.
 //             </p>
-//             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full max-w-7xl">
+            
+//             {/* Carousel for small screens */}
+//             <div className="w-full max-w-7xl md:hidden">
+//                 <Carousel
+//                     responsive={responsive}
+//                     infinite={true}
+//                     autoPlay={true}
+//                     autoPlaySpeed={3000}
+//                     keyBoardControl={true}
+//                     customTransition="all .5"
+//                     transitionDuration={500}
+//                     containerClass="carousel-container"
+//                     itemClass="carousel-item-padding-10-px"
+//                 >
+//                     {recipes.map((recipe) => (
+//                         <Link
+//                             key={recipe.idMeal}
+//                             href={`/recipe/${recipe.idMeal}`}
+//                             className="group relative block w-full h-80 rounded-2xl overflow-hidden shadow-2xl transition-transform transform hover:-translate-y-4 duration-500 ease-in-out"
+//                         >
+//                             <Image
+//                                 src={recipe.strMealThumb}
+//                                 alt={recipe.strMeal}
+//                                 fill
+//                                 className="object-cover transition-transform duration-700 group-hover:scale-125"
+//                             />
+//                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent group-hover:from-black/90 transition-all duration-500" />
+//                             <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col justify-end text-left transition-transform duration-500">
+//                                 <h3 className="text-white text-2xl font-bold mb-1 transition-all duration-500 transform translate-y-16 group-hover:translate-y-0 group-hover:text-red-400">
+//                                     {recipe.strMeal}
+//                                 </h3>
+//                                 <p className="text-white/90 text-sm opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+//                                     {recipe.strInstructions.substring(0, 75)}...
+//                                 </p>
+//                             </div>
+//                             <div className="absolute top-4 right-4 bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-full opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500">
+//                                 View Recipe
+//                             </div>
+//                         </Link>
+//                     ))}
+//                 </Carousel>
+//             </div>
+
+//             {/* Grid for medium and large screens */}
+//             <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full max-w-7xl">
 //                 {recipes.map((recipe) => (
 //                     <Link
 //                         key={recipe.idMeal}
@@ -60,8 +127,6 @@
 //                             className="object-cover transition-transform duration-700 group-hover:scale-125"
 //                         />
 //                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent group-hover:from-black/90 transition-all duration-500" />
-
-//                         {/* Staggered text content container */}
 //                         <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col justify-end text-left transition-transform duration-500">
 //                             <h3 className="text-white text-2xl font-bold mb-1 transition-all duration-500 transform translate-y-16 group-hover:translate-y-0 group-hover:text-red-400">
 //                                 {recipe.strMeal}
@@ -70,15 +135,15 @@
 //                                 {recipe.strInstructions.substring(0, 75)}...
 //                             </p>
 //                         </div>
-
 //                         <div className="absolute top-4 right-4 bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-full opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500">
-//                             View Recipe
+//                                 View Recipe
 //                         </div>
 //                     </Link>
 //                 ))}
 //             </div>
-//             <Link href="/recipes">
-//                 <button className="bg-gradient-to-r from-red-500 to-orange-600 hover:from-red-600 hover:to-orange-700 text-white font-bold py-3 px-8 rounded-full mt-12 transition-all duration-300 transform hover:scale-105 shadow-lg">
+
+//             <Link href="/categories">
+//                 <button className="cursor-pointer bg-gradient-to-r from-red-500 to-orange-600 hover:from-red-600 hover:to-orange-700 text-white font-bold py-3 px-8 rounded-full mt-12 transition-all duration-300 transform hover:scale-105 shadow-lg">
 //                     View All Recipes
 //                 </button>
 //             </Link>
@@ -95,12 +160,20 @@ import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 
-// Import the carousel and its styles
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
+// Define the TypeScript interface for a single recipe object
+interface Recipe {
+    idMeal: string;
+    strMeal: string;
+    strMealThumb: string;
+    strInstructions: string;
+}
+
 const TrendingRecipes = () => {
-    const [recipes, setRecipes] = useState([]);
+    // Type the recipes state with the new interface
+    const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -111,7 +184,7 @@ const TrendingRecipes = () => {
                     axios.get("https://www.themealdb.com/api/json/v1/1/random.php")
                 );
                 const responses = await Promise.all(promises);
-                const trendingRecipes: any = responses.map(response => response.data.meals[0]);
+                const trendingRecipes = responses.map(response => response.data.meals[0]);
                 setRecipes(trendingRecipes);
             } catch (error) {
                 console.error("Error fetching trending recipes:", error);
@@ -173,7 +246,7 @@ const TrendingRecipes = () => {
                     containerClass="carousel-container"
                     itemClass="carousel-item-padding-10-px"
                 >
-                    {recipes.map((recipe) => (
+                    {recipes.map((recipe: Recipe) => (
                         <Link
                             key={recipe.idMeal}
                             href={`/recipe/${recipe.idMeal}`}
@@ -204,7 +277,7 @@ const TrendingRecipes = () => {
 
             {/* Grid for medium and large screens */}
             <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full max-w-7xl">
-                {recipes.map((recipe) => (
+                {recipes.map((recipe: Recipe) => (
                     <Link
                         key={recipe.idMeal}
                         href={`/recipe/${recipe.idMeal}`}
@@ -226,7 +299,7 @@ const TrendingRecipes = () => {
                             </p>
                         </div>
                         <div className="absolute top-4 right-4 bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-full opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500">
-                                View Recipe
+                            View Recipe
                         </div>
                     </Link>
                 ))}
