@@ -98,7 +98,7 @@ const AboutPage = () => {
                 <div className="relative h-96 rounded-3xl overflow-hidden shadow-2xl">
                     {/* Placeholder image. You can replace this with a real brand image. */}
                     <Image
-                        src="https://images.unsplash.com/photo-1542444591-f9b336592231?q=80&w=2940&auto=format&fit=crop"
+                        src="https://images.unsplash.com/photo-1706685835600-fa406f365c2b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         alt="A team cooking and enjoying food"
                         fill
                         className="object-cover"
