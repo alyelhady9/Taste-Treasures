@@ -400,7 +400,7 @@ function Header({ onSearchResults, onFiltersChange } : any) {
                                     ) : (
                                         <button
                                             onClick={handleAuthModal}
-                                            className="max-md:text-sm max-md:px-3 max-md:py-1 cursor-pointer px-6 py-2.5 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-medium hover:from-orange-600 hover:to-red-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                                            className="max-md:text-sm max-md:px-1.5 max-md:py-2 cursor-pointer px-6 py-2.5 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-medium hover:from-orange-600 hover:to-red-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                                         >
                                             Sign in
                                         </button>
