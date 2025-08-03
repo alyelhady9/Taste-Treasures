@@ -111,7 +111,7 @@ const TrendingRecipes = () => {
                     axios.get("https://www.themealdb.com/api/json/v1/1/random.php")
                 );
                 const responses = await Promise.all(promises);
-                const trendingRecipes = responses.map(response => response.data.meals[0]);
+                const trendingRecipes: any = responses.map(response => response.data.meals[0]);
                 setRecipes(trendingRecipes);
             } catch (error) {
                 console.error("Error fetching trending recipes:", error);

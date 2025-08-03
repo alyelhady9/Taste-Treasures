@@ -4,13 +4,12 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleWishlistModal } from '../features/wishlistModalSlice';
 import { removeFromWishlist, WishlistItem } from '../features/wishlistSlice';
-import { RootState } from '@/redux/store'; // Make sure the path to your store is correct
 import Link from 'next/link';
 import { X, Search } from 'lucide-react';
 
 function WishlistModal() {
-    const isOpen = useSelector((state: RootState) => state.wishlistModal.isOpen);
-    const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
+    const isOpen = useSelector((state: any) => state.wishlistModal.isOpen);
+    const wishlistItems = useSelector((state: any) => state.wishlist.items);
     const dispatch = useDispatch();
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -57,7 +56,7 @@ function WishlistModal() {
     };
 
     // Filter items based on the search term
-    const filteredItems = wishlistItems.filter(item => {
+    const filteredItems = wishlistItems.filter((item:any) => {
         // Add a check to ensure item and its properties are not undefined
         if (!item || !item.strMeal) {
             return false;
@@ -115,7 +114,7 @@ function WishlistModal() {
                 {/* Wishlist Items */}
                 <div className="flex-1 overflow-y-auto p-6 space-y-6">
                     {filteredItems.length > 0 ? (
-                        filteredItems.map((item) => (
+                        filteredItems.map((item: any) => (
                             <div key={item.idMeal} className="bg-orange-50 rounded-lg p-4 flex flex-col space-y-4 shadow-md border border-orange-100">
                                 {/* Item Details */}
                                 <div className="flex items-center space-x-4">

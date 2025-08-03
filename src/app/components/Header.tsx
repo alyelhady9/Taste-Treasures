@@ -117,7 +117,7 @@ function Header({ onSearchResults, onFiltersChange } : any) {
 
                 let finalMeals = combinedResults;
                 if (selectedCategory && selectedCountry) {
-                    const mealDetailsPromises = combinedResults.map(async (meal) => {
+                    const mealDetailsPromises = combinedResults.map(async (meal:any) => {
                         const detailResponse = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`);
                         return await detailResponse.json();
                     });
@@ -130,7 +130,7 @@ function Header({ onSearchResults, onFiltersChange } : any) {
 
                 // 4. Always filter out Pork meals from the final results
                 if (finalMeals.length > 0) {
-                     const mealDetailsPromises = finalMeals.map(async (meal) => {
+                     const mealDetailsPromises = finalMeals.map(async (meal: any) => {
                         const detailResponse = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`);
                         return await detailResponse.json();
                     });
@@ -193,7 +193,7 @@ function Header({ onSearchResults, onFiltersChange } : any) {
     };
 
     const hasActiveFilters = searchQuery || selectedCategory || selectedCountry;
-    const isOpen = useSelector (state => state.wishlistModal.isOpen)
+    const isOpen = useSelector ((state: any) => state.wishlistModal.isOpen)
     const handleWishlistModal = () => { dispatch(toggleWishlistModal())}
     console.log(isOpen)
     return (
