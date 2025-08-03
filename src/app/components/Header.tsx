@@ -26,9 +26,13 @@ function Header({ onSearchResults, onFiltersChange } : any) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
     
-    const searchRef = useRef(null)
-    const filtersRef = useRef(null)
-    const userMenuRef = useRef(null)
+    // const searchRef = useRef(null)
+    // const filtersRef = useRef(null)
+    // const userMenuRef = useRef(null)
+
+    const searchRef = useRef<HTMLDivElement>(null);
+    const filtersRef = useRef<HTMLDivElement>(null);
+    const userMenuRef = useRef<HTMLDivElement>(null);
 
     const [mounted, setMounted] = useState(false)
 
@@ -167,15 +171,32 @@ function Header({ onSearchResults, onFiltersChange } : any) {
     }, [selectedCategory, selectedCountry, searchQuery]);
 
     // Close dropdowns when clicking outside
+    // useEffect(() => {
+    //     const handleClickOutside = (event:any) => {
+    //         if (searchRef.current && !searchRef.current.contains(event.target)) {
+    //             setIsSearchOpen(false);
+    //         }
+    //         if (filtersRef.current && !filtersRef.current.contains(event.target)) {
+    //             setIsFiltersOpen(false);
+    //         }
+    //         if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+    //             setIsUserMenuOpen(false);
+    //         }
+    //     };
+
+    //     document.addEventListener('mousedown', handleClickOutside);
+    //     return () => document.removeEventListener('mousedown', handleClickOutside);
+    // }, []);
+
     useEffect(() => {
-        const handleClickOutside = (event:any) => {
-            if (searchRef.current && !searchRef.current.contains(event.target)) {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
                 setIsSearchOpen(false);
             }
-            if (filtersRef.current && !filtersRef.current.contains(event.target)) {
+            if (filtersRef.current && !filtersRef.current.contains(event.target as Node)) {
                 setIsFiltersOpen(false);
             }
-            if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+            if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
                 setIsUserMenuOpen(false);
             }
         };
