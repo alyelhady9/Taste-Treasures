@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 import "./globals.css";
 import Footer from './components/Footer'
 import Header from "./components/Header";
 import ReduxProvider from "./store/Provider";
 import AuthModal from "./components/AuthModal";
 import WishlistModal from "./components/WishlistModal";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
