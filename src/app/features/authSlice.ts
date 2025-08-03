@@ -1,68 +1,93 @@
-// import { createSlice } from "@reduxjs/toolkit";
 
+// import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+// import { AppListener, AppStartListening } from '../../app/store';
+
+// // Helper functions for local storage
 // const saveToLocalStorage = (state: any) => {
-//     try {
-//       localStorage.setItem('auth', JSON.stringify({
-//         isAuthenticated: state.isAuthenticated,
-//         user: state.user
-//       }));
-//     } catch (error) {
-//       console.error('Failed to save to localStorage:', error);
-//     }
-//   };
-  
-//   const loadFromLocalStorage = () => {
-//     try {
-//       const saved = localStorage.getItem('auth');
-//       return saved ? JSON.parse(saved) : { isAuthenticated: false, user: null };
-//     } catch (error) {
-//       console.error('Failed to load from localStorage:', error);
+//   try {
+//     localStorage.setItem('auth', JSON.stringify({
+//       isAuthenticated: state.isAuthenticated,
+//       user: state.user,
+//     }));
+//   } catch (error) {
+//     console.error('Failed to save to localStorage:', error);
+//   }
+// };
+
+// const loadFromLocalStorage = () => {
+//   try {
+//     const saved = localStorage.getItem('auth');
+//     if (saved === null) {
 //       return { isAuthenticated: false, user: null };
 //     }
-//   };
-  
+//     return JSON.parse(saved);
+//   } catch (error) {
+//     console.error('Failed to load from localStorage:', error);
+//     return { isAuthenticated: false, user: null };
+//   }
+// };
 
-// const authSlice = createSlice( {
-//     name: "auth",
-//     initialState: {
-//         isAuthenticated: false,
-//         user: null,
-//         isHydrated: false,
-
+// // Redux Slice
+// const authSlice = createSlice({
+//   name: "auth",
+//   initialState: {
+//     ...loadFromLocalStorage(), // Load initial state from local storage
+//   },
+//   reducers: {
+//     login(state) {
+//       state.isAuthenticated = true;
 //     },
-//     reducers: {
-//         hydrateAuth: (state) => {
-//             const saved = loadFromLocalStorage();
-//             state.isAuthenticated = saved.isAuthenticated;
-//             state.user = saved.user;
-//             state.isHydrated = true;
-//           },
-//         login: (state) => {
-//             state.isAuthenticated = true;
-//             saveToLocalStorage(state);
-//         },
-//         logout: (state) => {
-//             state.isAuthenticated = false;
-//             state.user = null;
-//             saveToLocalStorage(state);
-//         },
+//     logout(state) {
+//       state.isAuthenticated = false;
+//       state.user = null;
+//     },
+//     setUserName(state, action: PayloadAction<string>) {
+//       state.user = action.payload;
+//     },
+//   }
+// });
 
-//         setUserName: (state, action) => { 
-//             state.user = action.payload
-//             saveToLocalStorage(state);
-//         }
-
-//     }
-// })
-// export const { login, setUserName } = authSlice.actions;
+// export const { login, logout, setUserName } = authSlice.actions;
 // export default authSlice.reducer;
 
+// // Listener for Redux Toolkit to handle local storage saving
+// export const startAuthListener: AppStartListening = (startListening) => {
+//   startListening({
+//     actionCreator: login,
+//     effect: (action, listenerApi) => {
+//       saveToLocalStorage(listenerApi.getState().auth);
+//     }
+//   });
 
+//   startListening({
+//     actionCreator: logout,
+//     effect: (action, listenerApi) => {
+//       saveToLocalStorage(listenerApi.getState().auth);
+//     }
+//   });
+
+//   startListening({
+//     actionCreator: setUserName,
+//     effect: (action, listenerApi) => {
+//       saveToLocalStorage(listenerApi.getState().auth);
+//     }
+//   });
+// };
+
+
+// src/features/authSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppListener, AppStartListening } from '../../app/store';
+import { AppStartListening ,listenerMiddleware} from './middleware';
+import { RootState } from '../store/store';
+
+// Define the type for our auth state
+interface AuthState {
+  isAuthenticated: boolean;
+  user: string | null;
+}
 
 // Helper functions for local storage
-const saveToLocalStorage = (state: any) => {
+const saveToLocalStorage = (state: AuthState) => {
   try {
     localStorage.setItem('auth', JSON.stringify({
       isAuthenticated: state.isAuthenticated,
@@ -73,7 +98,7 @@ const saveToLocalStorage = (state: any) => {
   }
 };
 
-const loadFromLocalStorage = () => {
+const loadFromLocalStorage = (): AuthState => {
   try {
     const saved = localStorage.getItem('auth');
     if (saved === null) {
@@ -89,9 +114,7 @@ const loadFromLocalStorage = () => {
 // Redux Slice
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    ...loadFromLocalStorage(), // Load initial state from local storage
-  },
+  initialState: loadFromLocalStorage(),
   reducers: {
     login(state) {
       state.isAuthenticated = true;
@@ -103,32 +126,33 @@ const authSlice = createSlice({
     setUserName(state, action: PayloadAction<string>) {
       state.user = action.payload;
     },
-  }
+  },
 });
 
 export const { login, logout, setUserName } = authSlice.actions;
 export default authSlice.reducer;
 
 // Listener for Redux Toolkit to handle local storage saving
-export const startAuthListener: AppStartListening = (startListening) => {
-  startListening({
-    actionCreator: login,
-    effect: (action, listenerApi) => {
-      saveToLocalStorage(listenerApi.getState().auth);
-    }
-  });
+export const startAuthListener = listenerMiddleware.startListening as AppStartListening;
 
-  startListening({
-    actionCreator: logout,
-    effect: (action, listenerApi) => {
-      saveToLocalStorage(listenerApi.getState().auth);
-    }
-  });
+// This listener is not needed anymore
+startAuthListener({
+  actionCreator: login,
+  effect: (action, listenerApi) => {
+    saveToLocalStorage(listenerApi.getState().auth);
+  }
+});
 
-  startListening({
-    actionCreator: setUserName,
-    effect: (action, listenerApi) => {
-      saveToLocalStorage(listenerApi.getState().auth);
-    }
-  });
-};
+startAuthListener({
+  actionCreator: logout,
+  effect: (action, listenerApi) => {
+    saveToLocalStorage(listenerApi.getState().auth);
+  }
+});
+
+startAuthListener({
+  actionCreator: setUserName,
+  effect: (action, listenerApi) => {
+    saveToLocalStorage(listenerApi.getState().auth);
+  }
+});
